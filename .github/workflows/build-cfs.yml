@@ -71,7 +71,7 @@ jobs:
       - name: Build Files
         run: |
         cd build
-        ls -al
+        ls
         cd ..
 
   test-cfs:
@@ -125,7 +125,7 @@ jobs:
       - name: Test Files
         run: |
         cd build
-        ls -al
+        ls
         cd ..
 
       - name: Run Tests
