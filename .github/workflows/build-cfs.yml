@@ -65,7 +65,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ./build
+          path: ./build/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
   test-cfs:
@@ -102,7 +102,7 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ./build
+          path: ./build/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Setup the build system
@@ -147,7 +147,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ./build
+          path: ./build/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Setup the build system
