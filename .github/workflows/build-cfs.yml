@@ -68,6 +68,12 @@ jobs:
           path: ./build/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
+      - name: Build Files
+        run: |
+        cd build
+        ls -al
+        cd ..
+
   test-cfs:
     name: Test
     runs-on: ubuntu-18.04
@@ -115,6 +121,12 @@ jobs:
       - name: Make
         if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
+      
+      - name: Test Files
+        run: |
+        cd build
+        ls -al
+        cd ..
 
       - name: Run Tests
         run: make test
