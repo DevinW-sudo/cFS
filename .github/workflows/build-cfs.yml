@@ -60,7 +60,10 @@ jobs:
         run: make prep
 
       - name: Make
-        run: make
+        run: |
+          make
+          cd build
+          cd ..
 
       - name: Cache Build
         id: cache-build
