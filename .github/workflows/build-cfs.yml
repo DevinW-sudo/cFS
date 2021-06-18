@@ -4,7 +4,6 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
-  workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -39,7 +38,6 @@ jobs:
 
     # Set the type of machine to run on
     env:
-      id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
@@ -60,17 +58,7 @@ jobs:
         run: make prep
 
       - name: Make
-        run: |
-          make
-          cd build
-          cd ..
-
-      - name: Cache Build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: ./build/
-          key: ${{ runner.os }}-build-${{ env.build-type }}
+        run: make
 
   test-cfs:
     name: Test
@@ -99,16 +87,6 @@ jobs:
         with:
           submodules: true
 
-      #- name: Make Build Directory
-      #  run: mkdir build
-
-      - name: Cache Test
-        id: cache-test
-        uses: actions/cache@v2
-        with:
-          path: ./build/
-          key: ${{ runner.os }}-build-${{ env.build-type }}
-
       # Setup the build system
       - name: Copy Files
         run: |
@@ -117,7 +95,6 @@ jobs:
 
       # Setup the build system
       - name: Make
-        if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       - name: Run Tests
@@ -146,13 +123,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Cache Run
-        id: cache-run
-        uses: actions/cache@v2
-        with:
-          path: ./build/
-          key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Setup the build system
       - name: Copy sample_defs
