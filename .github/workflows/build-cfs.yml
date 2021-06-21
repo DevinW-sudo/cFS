@@ -121,7 +121,7 @@ jobs:
 
       - name: Move if Cache Hit - Test
         if: steps.cache-run.outputs.cache-hit == 'true'
-        run: cd cFS
+        run: cd ~/cFS
 
       - name: Run Tests
         run: make test
@@ -167,7 +167,7 @@ jobs:
 
       - name: Move if Cache Hit - Run
         if: steps.cache-run.outputs.cache-hit == 'true'
-        run: cd cFS
+        run: cd ~/cFS
 
       # Setup the build system
       - name: Make Install
