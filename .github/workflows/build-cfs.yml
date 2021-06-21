@@ -68,7 +68,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ../cFS/
+          path: ~/cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
   test-cfs:
@@ -97,7 +97,7 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ./cFS/
+        path: ~/cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
@@ -119,7 +119,7 @@ jobs:
         if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
-      - name: Move if Cache Hit - Run
+      - name: Move if Cache Hit - Test
         if: steps.cache-run.outputs.cache-hit == 'true'
         run: cd cFS
 
@@ -148,7 +148,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ./cFS/
+          path: ~/cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
