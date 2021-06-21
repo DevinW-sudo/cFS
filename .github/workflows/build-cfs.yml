@@ -119,9 +119,9 @@ jobs:
         if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
-        - name: Move if Cache Hit - Run
-          if: steps.cache-run.outputs.cache-hit == 'true'
-          run: cd cFS
+      - name: Move if Cache Hit - Run
+        if: steps.cache-run.outputs.cache-hit == 'true'
+        run: cd cFS
 
       - name: Run Tests
         run: make test
