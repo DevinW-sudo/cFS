@@ -61,7 +61,14 @@ jobs:
         run: make prep
 
       - name: Make
-        run: make
+        run: |
+          make
+          cd ..
+          pwd
+          ls
+          cd .. 
+          pwd
+          ls
 
       - name: Cache Build
         id: cache-build
