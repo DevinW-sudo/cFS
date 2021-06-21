@@ -134,7 +134,9 @@ jobs:
           cd ~/work/cFS
 
       - name: Run Tests
-        run: make test
+        run: |
+          pwd
+          make test
 
       - name: Check Coverage
         run: make lcov
