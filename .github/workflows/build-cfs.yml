@@ -75,7 +75,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ~/cFS
+          path: ~/work/cFS
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
   test-cfs:
