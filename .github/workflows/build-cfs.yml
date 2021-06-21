@@ -67,7 +67,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ./build/
+          path: ../cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
   test-cfs:
@@ -91,31 +91,36 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get install lcov -y
 
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      #- name: Make Build Directory
-      #  run: mkdir build
-
       - name: Cache Test
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ./build/
+          path: ./cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
-      # Setup the build system
-      - name: Copy Files
-        run: |
-          cp ./cfe/cmake/Makefile.sample Makefile
-          cp -r ./cfe/cmake/sample_defs sample_defs
-      # Setup the build system
-      - name: Make
+      - name: Checkout and Build Test
         if: steps.cache-test.outputs.cache-hit != 'true'
-        run: make
+
+        steps:
+          # Checks out a copy of your repository on the ubuntu-latest machine
+          - name: Checkout code
+            uses: actions/checkout@v2
+            with:
+              submodules: true
+
+          # Setup the build system
+          - name: Copy Files
+            run: |
+              cp ./cfe/cmake/Makefile.sample Makefile
+              cp -r ./cfe/cmake/sample_defs sample_defs
+
+          # Setup the build system
+          - name: Make
+            run: make
+
+      - name: Move after cache hit - Run
+        if: steps.cache-test.outputs.cache-hit == 'true'
+        run: cd cFS    
 
       - name: Run Tests
         run: make test
@@ -138,24 +143,33 @@ jobs:
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
-      # Checks out a copy of your repository on the ubuntu-latest machine
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-
       - name: Cache Run
-        id: cache-run
+        id: cache-test
         uses: actions/cache@v2
         with:
-          path: ./build/
+          path: ./cFS/
           key: ${{ runner.os }}-build-${{ env.build-type }}
 
-      # Setup the build system
-      - name: Copy sample_defs
-        run: |
-          cp ./cfe/cmake/Makefile.sample Makefile
-          cp -r ./cfe/cmake/sample_defs sample_defs
+      - name: Checkout and Build Run
+        if: steps.cache-test.outputs.cache-hit != 'true'
+
+        steps:
+        # Checks out a copy of your repository on the ubuntu-latest machine
+        - name: Checkout code
+          uses: actions/checkout@v2
+          with:
+            submodules: true
+
+        # Setup the build system
+        - name: Copy sample_defs
+          run: |
+            cp ./cfe/cmake/Makefile.sample Makefile
+            cp -r ./cfe/cmake/sample_defs sample_defs
+
+      - name: Move after cache hit - Run
+        if: steps.cache-test.outputs.cache-hit == 'true'
+        run: cd cFS
+
       # Setup the build system
       - name: Make Install
         run: make install
