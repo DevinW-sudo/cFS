@@ -126,7 +126,7 @@ jobs:
         run: make
 
       - name: Move if Cache Hit - Test
-        if: steps.cache-run.outputs.cache-hit == 'true'
+        if: steps.cache-test.outputs.cache-hit == 'true'
         run: |
           pwd
           ls
