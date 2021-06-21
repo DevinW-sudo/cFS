@@ -61,6 +61,7 @@ jobs:
         run: make prep
 
       - name: Make
+        id: make-build
         run: |
           pwd
           make
@@ -74,6 +75,7 @@ jobs:
       - name: Cache Build
         id: cache-build
         uses: actions/cache@v2
+        needs: make-build
         with:
           path: ~/work/cFS
           key: ${{ runner.os }}-build-${{ env.build-type }}
