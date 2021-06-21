@@ -4,6 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -38,6 +39,7 @@ jobs:
 
     # Set the type of machine to run on
     env:
+      id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
@@ -52,13 +54,21 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-
       # Setup the build system
       - name: Make Prep
         run: make prep
 
       - name: Make
-        run: make
+        run: |
+          make
+          cd build
+          cd ..
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ./build/
+          key: ${{ runner.os }}-build-${{ env.build-type }}
 
   test-cfs:
     name: Test
@@ -87,14 +97,24 @@ jobs:
         with:
           submodules: true
 
+      #- name: Make Build Directory
+      #  run: mkdir build
+
+      - name: Cache Test
+        id: cache-test
+        uses: actions/cache@v2
+        with:
+          path: ./build/
+          key: ${{ runner.os }}-build-${{ env.build-type }}
+
       # Setup the build system
       - name: Copy Files
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-
       # Setup the build system
       - name: Make
+        if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       - name: Run Tests
@@ -124,12 +144,18 @@ jobs:
         with:
           submodules: true
 
+      - name: Cache Run
+        id: cache-run
+        uses: actions/cache@v2
+        with:
+          path: ./build/
+          key: ${{ runner.os }}-build-${{ env.build-type }}
+
       # Setup the build system
       - name: Copy sample_defs
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-
       # Setup the build system
       - name: Make Install
         run: make install
