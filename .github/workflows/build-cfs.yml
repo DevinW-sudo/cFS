@@ -190,7 +190,7 @@ jobs:
       - name: Make Install
         run: |
           pwd
-          cd cFS
+          cd build
           make
           make install
 
