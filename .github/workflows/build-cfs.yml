@@ -97,8 +97,8 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-        path: ~/cFS/
-        key: ${{ runner.os }}-build-${{ env.build-type }}
+          path: ~/cFS/
+          key: ${{ runner.os }}-build-${{ env.build-type }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
