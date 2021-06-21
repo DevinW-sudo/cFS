@@ -132,6 +132,7 @@ jobs:
           pwd
           ls
           cd ~/work/cFS
+          pwd
 
       - name: Run Tests
         run: |
@@ -182,11 +183,14 @@ jobs:
         run: |
           pwd
           ls
-          cd ~/work/cFS
+          cd ~/work/cFS/cFS
+          pwd
 
       # Setup the build system
       - name: Make Install
-        run: make install
+        run: |
+          pwd
+          make install
 
       - name: List cpu1
         run: ls build/exe/cpu1/
