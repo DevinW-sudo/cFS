@@ -54,15 +54,14 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
+          pwd
+          ls
       # Setup the build system
       - name: Make Prep
         run: make prep
 
       - name: Make
-        run: |
-          make
-          cd build
-          cd ..
+        run: make
 
       - name: Cache Build
         id: cache-build
@@ -121,7 +120,10 @@ jobs:
 
       - name: Move if Cache Hit - Test
         if: steps.cache-run.outputs.cache-hit == 'true'
-        run: cd ~/cFS
+        run: |
+          pwd
+          ls
+          cd ~/cFS
 
       - name: Run Tests
         run: make test
@@ -167,7 +169,10 @@ jobs:
 
       - name: Move if Cache Hit - Run
         if: steps.cache-run.outputs.cache-hit == 'true'
-        run: cd ~/cFS
+        run: |
+          pwd
+          ls
+          cd ~/cFS
 
       # Setup the build system
       - name: Make Install
