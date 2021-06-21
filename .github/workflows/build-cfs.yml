@@ -130,7 +130,7 @@ jobs:
         run: |
           pwd
           ls
-          cd ~/cFS
+          cd ~/work/cFS/cFS
 
       - name: Run Tests
         run: make test
@@ -179,7 +179,7 @@ jobs:
         run: |
           pwd
           ls
-          cd ~/cFS
+          cd ~/work/cFS/cFS
 
       # Setup the build system
       - name: Make Install
