@@ -190,6 +190,7 @@ jobs:
       - name: Make Install
         run: |
           pwd
+          make
           make install
 
       - name: List cpu1
