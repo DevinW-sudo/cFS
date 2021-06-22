@@ -130,7 +130,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          cd ..
+          cd cFS
           make test
 
       - name: Check Coverage
