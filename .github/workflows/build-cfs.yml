@@ -130,8 +130,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          pwd
-          git submodule update
+          cd ..
           make test
 
       - name: Check Coverage
