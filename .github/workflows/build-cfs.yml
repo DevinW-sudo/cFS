@@ -182,9 +182,7 @@ jobs:
 
       # Setup the build system
       - name: Make Install
-        run: |
-          make
-          make install
+        run: make install
 
       - name: List cpu1
         run: ls build/exe/cpu1/
