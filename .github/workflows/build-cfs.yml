@@ -43,6 +43,13 @@ jobs:
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE}}-v${{github.run_number}}
+
       # Check out the cfs bundle
       - name: Checkout code
         uses: actions/checkout@v2
@@ -64,13 +71,6 @@ jobs:
         run: |
           pwd
           make
-
-      - name: Cache Build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE}}-v${{github.run_number}}
 
   test-cfs:
     name: Test
