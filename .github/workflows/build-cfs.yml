@@ -129,7 +129,10 @@ jobs:
       #     pwd
 
       - name: Run Tests
-        run: make test
+        run: |
+          cd build/native/default_cpu1
+          cd ../../..
+          make test
 
       - name: Check Coverage
         run: make lcov
