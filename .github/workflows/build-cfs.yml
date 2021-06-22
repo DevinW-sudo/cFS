@@ -70,7 +70,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE}}-v${{github.run_number}}
 
   test-cfs:
@@ -99,12 +99,12 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        #if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
@@ -156,7 +156,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
