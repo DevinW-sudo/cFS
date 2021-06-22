@@ -4,7 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
-#  workflow_dispatch:
+  workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -43,6 +43,7 @@ jobs:
       BUILDTYPE: ${{ matrix.buildtype }}
       ENABLE_UNIT_TESTS: true
 
+    # Set up cache for cfs build
     steps:
       - name: Cache Build
         id: cache-build
@@ -95,6 +96,7 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get install lcov -y
 
+        # set up cache/restore files from cache
       - name: Cache Test
         id: cache-test
         uses: actions/cache@v2
@@ -121,19 +123,8 @@ jobs:
         if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
-      # - name: Move if Cache Hit - Test
-      #   if: steps.cache-test.outputs.cache-hit == 'true'
-      #   run: |
-      #     pwd
-      #     ls
-      #     cd ~/work/cFS
-      #     pwd
-
       - name: Run Tests
-        run: |
-          cd build/native/default_cpu1
-          cd ../../..
-          make test
+        run: make test
 
       - name: Check Coverage
         run: make lcov
@@ -153,6 +144,7 @@ jobs:
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
+      # set up cache/restore files from cache
       - name: Cache Run
         id: cache-run
         uses: actions/cache@v2
@@ -174,13 +166,6 @@ jobs:
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
-      # - name: Move if Cache Hit - Run
-      #   if: steps.cache-run.outputs.cache-hit == 'true'
-      #   run: |
-      #     pwd
-      #     ls
-      #     cd ~/work/cFS
-      #     pwd
 
       # Setup the build system
       - name: Make Install
