@@ -117,7 +117,7 @@ jobs:
 
       # Setup the build system
       - name: Make
-        #if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       # - name: Move if Cache Hit - Test
@@ -131,6 +131,7 @@ jobs:
       - name: Run Tests
         run: |
           pwd
+          git submodule update
           make test
 
       - name: Check Coverage
