@@ -103,25 +103,22 @@ jobs:
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        # if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Setup the build system
       - name: Copy Files
-        # if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
       # Setup the build system
       - name: Make
-        # if: steps.cache-test.outputs.cache-hit != 'true'
-        run: |
-          make
-          cd build/native
-          cd ../..
+        if: steps.cache-test.outputs.cache-hit != 'true'
+        run: make
 
       # - name: Move if Cache Hit - Test
       #   if: steps.cache-test.outputs.cache-hit == 'true'
@@ -132,7 +129,10 @@ jobs:
       #     pwd
 
       - name: Run Tests
-        run: make test
+        run: |
+          make
+          cd build/native
+          cd ../..
 
       - name: Check Coverage
         run: make lcov
