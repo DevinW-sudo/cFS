@@ -105,7 +105,7 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ~/cFS
+          path: ~/work/cFS
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
@@ -162,7 +162,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ~/cFS
+          path: ~/work/cFS
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
