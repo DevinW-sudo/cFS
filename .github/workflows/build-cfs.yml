@@ -4,7 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
-  workflow_dispatch:
+#  workflow_dispatch:
 
 env:
   SIMULATION: native
