@@ -127,18 +127,17 @@ jobs:
         if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
-      - name: Move if Cache Hit - Test
-        if: steps.cache-test.outputs.cache-hit == 'true'
-        run: |
-          pwd
-          ls
-          cd ~/work/cFS
-          pwd
+      # - name: Move if Cache Hit - Test
+      #   if: steps.cache-test.outputs.cache-hit == 'true'
+      #   run: |
+      #     pwd
+      #     ls
+      #     cd ~/work/cFS
+      #     pwd
 
       - name: Run Tests
         run: |
           pwd
-          cd ~/work/cFS
           make test
 
       - name: Check Coverage
@@ -180,19 +179,17 @@ jobs:
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
-      - name: Move if Cache Hit - Run
-        if: steps.cache-run.outputs.cache-hit == 'true'
-        run: |
-          pwd
-          ls
-          cd ~/work/cFS
-          pwd
+      # - name: Move if Cache Hit - Run
+      #   if: steps.cache-run.outputs.cache-hit == 'true'
+      #   run: |
+      #     pwd
+      #     ls
+      #     cd ~/work/cFS
+      #     pwd
 
       # Setup the build system
       - name: Make Install
         run: |
-          pwd
-          cd build
           make
           make install
 
