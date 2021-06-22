@@ -54,8 +54,7 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-          pwd
-          ls
+          
       # Setup the build system
       - name: Make Prep
         run: make prep
@@ -104,7 +103,7 @@ jobs:
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        # if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
@@ -119,7 +118,9 @@ jobs:
       # Setup the build system
       - name: Make
         #if: steps.cache-test.outputs.cache-hit != 'true'
-        run: make
+        run: |
+          make prep
+          make
 
       # - name: Move if Cache Hit - Test
       #   if: steps.cache-test.outputs.cache-hit == 'true'
