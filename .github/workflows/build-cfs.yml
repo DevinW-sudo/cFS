@@ -65,12 +65,6 @@ jobs:
         run: |
           pwd
           make
-          cd ..
-          pwd
-          ls
-          cd .. 
-          pwd
-          ls
 
       - name: Cache Build
         id: cache-build
@@ -101,30 +95,30 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get install lcov -y
 
-      - name: Cache Test
-        id: cache-test
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
+      # - name: Cache Test
+      #   id: cache-test
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ~/work/cFS
+      #     key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        #if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        #if: steps.cache-test.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
       # Setup the build system
       - name: Make
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        #if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       # - name: Move if Cache Hit - Test
