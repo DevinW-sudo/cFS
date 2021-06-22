@@ -184,7 +184,7 @@ jobs:
         run: |
           pwd
           ls
-          cd ~/work/cFS/cFS
+          cd ~/work/cFS
           pwd
 
       # Setup the build system
