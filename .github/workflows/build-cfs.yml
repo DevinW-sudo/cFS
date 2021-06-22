@@ -77,13 +77,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/work/cFS
-          key: ${{ runner.os }}-build-${{ env.build-type }}-v${{github.run_number}}
-
-      - name: Store Cache Version Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: version-number
-          path: version-number.txt
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE}}-v${{github.run_number}}
 
   test-cfs:
     name: Test
@@ -112,7 +106,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/cFS
-          key: ${{ runner.os }}-build-${{ env.build-type }}-v${{github.run_number}}
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
@@ -169,7 +163,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/cFS
-          key: ${{ runner.os }}-build-${{ env.build-type }}-v${{github.run_number}}
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
