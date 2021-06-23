@@ -41,26 +41,18 @@ jobs:
     env:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
-      ENABLE_UNIT_TESTS: true
+      #ENABLE_UNIT_TESTS: true
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
     steps:
       - name: Subtract for Previous Cache Version
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
-
       # Check out the cfs bundle
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Copy and Save Files
-        run: |
-          cp ./cfe/cmake/Makefile.sample Makefile
-          cp -r ./cfe/cmake/sample_defs sample_defs
-          cp -r sample_defs ../sample_defs
-          cp Makefile ../Makefile
 
        # Grab previous cache for cfs build
       - name: Cache Previous Build
@@ -68,15 +60,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-${{ env.PREVIOUS_CACHE_VERSION }}
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Setup the build system
-      - name: Move and Overwrite Files
-        if: steps.cache-previous-build.outputs.cache-hit == 'true'
+      - name: Copy Files
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
-          rm Makefile
-          rm -r sample_defs
-          mv ../Makefile ../sample_defs .
+          cp ./cfe/cmake/Makefile.sample Makefile
+          cp -r ./cfe/cmake/sample_defs sample_defs
           
       # Setup the build system
       - name: Make Prep
@@ -87,20 +78,12 @@ jobs:
         run: make
 
       # Set up new cache for cfs build
-      - name: Cache cFS Build
+      - name: Cache Build
         id: cache-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
-
-      # # Set up new cache to use during next build phase
-      # - name: Cache Next Build
-      #   id: cache-next-build
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/work/cFS/build/
-      #     key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-v${{ github.run_number }}
 
   test-cfs:
     name: Test
@@ -116,7 +99,7 @@ jobs:
     # Set the type of machine to run on
     env:
       BUILDTYPE: ${{ matrix.buildtype }}
-      # ENABLE_UNIT_TESTS: true
+      ENABLE_UNIT_TESTS: true
 
 
     steps:
@@ -145,23 +128,10 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-
-      # - name: Echo var1
-      #   run: echo "${ENABLE_UNIT_TESTS}"
-
-      # Enable unit testing - set environment variable
-      # - name: Enable Unit Tests
-      #   run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
-
-      # - name: Echo var2
-      #   run: echo "${ENABLE_UNIT_TESTS}"
-
       # Setup the build system
       - name: Make
+        #if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
-      
-      # - name: Echo var3
-      #   run: echo "${ENABLE_UNIT_TESTS}"
 
       - name: Run Tests
         run: make test
@@ -205,8 +175,6 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-
-
       # Setup the build system
       - name: Make Install
         run: make install
