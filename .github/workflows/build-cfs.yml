@@ -137,13 +137,22 @@ jobs:
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
+      - name: Echo var1
+        run echo "${ENABLE_UNIT_TESTS}"
+
       # Enable unit testing - set environment variable
       - name: Enable Unit Tests
         run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
 
+      - name: Echo var2
+        run echo "${ENABLE_UNIT_TESTS}"
+
       # Setup the build system
       - name: Make
         run: make
+      
+      - name: Echo var3
+        run echo "${ENABLE_UNIT_TESTS}"
 
       - name: Run Tests
         run: make test
