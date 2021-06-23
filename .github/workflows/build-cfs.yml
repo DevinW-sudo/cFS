@@ -142,8 +142,8 @@ jobs:
         run: echo "${ENABLE_UNIT_TESTS}"
 
       # Enable unit testing - set environment variable
-      - name: Enable Unit Tests
-        run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
+      # - name: Enable Unit Tests
+      #   run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
 
       - name: Echo var2
         run: echo "${ENABLE_UNIT_TESTS}"
