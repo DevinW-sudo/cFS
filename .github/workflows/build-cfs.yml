@@ -87,7 +87,7 @@ jobs:
 
       # Set up new cache to use during next build phase
       - name: Cache Build
-        id: cache-build
+        id: cache-next-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/build/
