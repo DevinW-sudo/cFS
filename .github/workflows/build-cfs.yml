@@ -74,7 +74,9 @@ jobs:
       - name: Move and Overwrite Files
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
         run: |
-          mv -f ../Makefile ../sample_defs .
+          rm Makefile
+          rm -r sample_defs
+          mv ../Makefile ../sample_defs .
           
       # Setup the build system
       - name: Make Prep
