@@ -59,7 +59,7 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
-          cp sample_defs ../sample_defs
+          cp -r sample_defs ../sample_defs
           cp Makefile ../Makefile
 
        # Grab previous cache for cfs build
