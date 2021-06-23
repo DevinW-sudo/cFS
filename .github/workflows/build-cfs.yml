@@ -42,7 +42,7 @@ jobs:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
-      #ENABLE_UNIT_TESTS: true
+      ENABLE_UNIT_TESTS: true
 
     steps:
       - name: Subtract for Previous Cache Version
@@ -60,12 +60,12 @@ jobs:
         id: cache-previous-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build/
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Setup the build system
       - name: Copy Files
-        #if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
@@ -83,7 +83,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
       # # Set up new cache to use during next build phase
@@ -121,19 +121,19 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        # if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Setup the build system
       - name: Copy Files
-        # if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-test.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
@@ -181,19 +181,19 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
-        #if: steps.cache-run.outputs.cache-hit != 'true'
+        if: steps.cache-run.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Setup the build system
       - name: Copy sample_defs
-        #if: steps.cache-run.outputs.cache-hit != 'true'
+        if: steps.cache-run.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
