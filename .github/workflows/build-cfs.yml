@@ -41,7 +41,6 @@ jobs:
     env:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
-      #ENABLE_UNIT_TESTS: true
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
     steps:
@@ -60,8 +59,8 @@ jobs:
         id: cache-previous-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-v${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Setup the build system
       - name: Copy Files
@@ -85,6 +84,14 @@ jobs:
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
+
+      # Set up new cache to use during next build phase
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-v${{ github.run_number }}
 
   test-cfs:
     name: Test
