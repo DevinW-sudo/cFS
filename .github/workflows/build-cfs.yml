@@ -78,7 +78,7 @@ jobs:
         run: make
 
       # Set up new cache for cfs build
-      - name: Cache Build
+      - name: Cache cFS Build
         id: cache-build
         uses: actions/cache@v2
         with:
@@ -86,7 +86,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
       # Set up new cache to use during next build phase
-      - name: Cache Build
+      - name: Cache Next Build
         id: cache-next-build
         uses: actions/cache@v2
         with:
