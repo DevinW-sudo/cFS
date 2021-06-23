@@ -65,7 +65,7 @@ jobs:
 
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
