@@ -42,15 +42,12 @@ jobs:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
       ENABLE_UNIT_TESTS: true
+      CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
-    # Set up cache for cfs build
     steps:
-      - name: Cache Build
-        id: cache-build
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE}}-v${{github.run_number}}
+      - name: Subtract for Previous Cache Version
+        run: |
+          echo ::set-env name=PREVIOUS_CACHE_VERSION::$(($CACHE_VERSION_NUMBER - 1))
 
       # Check out the cfs bundle
       - name: Checkout code
@@ -58,8 +55,17 @@ jobs:
         with:
           submodules: true
 
+       # Set up cache for cfs build
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
+
       # Setup the build system
       - name: Copy Files
+        if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
