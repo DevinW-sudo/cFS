@@ -107,7 +107,7 @@ jobs:
     # Set the type of machine to run on
     env:
       BUILDTYPE: ${{ matrix.buildtype }}
-      ENABLE_UNIT_TESTS: true
+      #ENABLE_UNIT_TESTS: true
 
 
     steps:
@@ -137,12 +137,13 @@ jobs:
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
+      # Enable unit testing - set environment variable
+      - name: Enable Unit Tests
+        run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
+
       # Setup the build system
       - name: Make
-        #if: steps.cache-test.outputs.cache-hit != 'true'
-        run: |
-          echo "ENABLE_UNIT_TESTS = true"
-          make 
+        run: make
 
       - name: Run Tests
         run: make test
