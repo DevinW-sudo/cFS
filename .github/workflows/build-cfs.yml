@@ -140,7 +140,9 @@ jobs:
       # Setup the build system
       - name: Make
         #if: steps.cache-test.outputs.cache-hit != 'true'
-        run: make
+        run: |
+          echo "ENABLE_UNIT_TESTS = true"
+          make 
 
       - name: Run Tests
         run: make test
