@@ -152,8 +152,8 @@ jobs:
       - name: Make
         run: make
       
-      - name: Echo var3
-        run: echo "${ENABLE_UNIT_TESTS}"
+      # - name: Echo var3
+      #   run: echo "${ENABLE_UNIT_TESTS}"
 
       - name: Run Tests
         run: make test
