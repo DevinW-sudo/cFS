@@ -41,7 +41,7 @@ jobs:
     env:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
-      ENABLE_UNIT_TESTS: true
+      #ENABLE_UNIT_TESTS: true
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
     steps:
@@ -132,7 +132,7 @@ jobs:
 
       # Setup the build system
       - name: Make
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        #if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       - name: Run Tests
