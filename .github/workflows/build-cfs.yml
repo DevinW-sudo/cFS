@@ -55,7 +55,7 @@ jobs:
         with:
           submodules: true
 
-       # Set up cache for cfs build
+       # Grab previous cache for cfs build
       - name: Cache Build
         id: cache-build
         uses: actions/cache@v2
@@ -76,9 +76,15 @@ jobs:
 
       - name: Make
         id: make-build
-        run: |
-          pwd
-          make
+        run: make
+
+      # Set up new cache for cfs build
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
   test-cfs:
     name: Test
@@ -108,7 +114,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
