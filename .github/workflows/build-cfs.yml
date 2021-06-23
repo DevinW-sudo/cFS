@@ -108,7 +108,7 @@ jobs:
     # Set the type of machine to run on
     env:
       BUILDTYPE: ${{ matrix.buildtype }}
-      #ENABLE_UNIT_TESTS: true
+      ENABLE_UNIT_TESTS: true
 
 
     steps:
