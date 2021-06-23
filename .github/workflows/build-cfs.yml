@@ -42,6 +42,7 @@ jobs:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
+      ENABLE_UNIT_TESTS: true
 
     steps:
       - name: Subtract for Previous Cache Version
