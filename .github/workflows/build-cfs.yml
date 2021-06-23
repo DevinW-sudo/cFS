@@ -4,7 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
-  workflow_dispatch:
+  #workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -41,8 +41,8 @@ jobs:
     env:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
+      # ENABLE_UNIT_TESTS: true
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
-      ENABLE_UNIT_TESTS: true
 
     steps:
       - name: Subtract for Previous Cache Version
