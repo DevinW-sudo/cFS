@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Subtract for Previous Cache Version
         run: |
-          echo ::set-env name=PREVIOUS_CACHE_VERSION::$(($CACHE_VERSION_NUMBER - 1))
+          echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
 
       # Check out the cfs bundle
       - name: Checkout code
