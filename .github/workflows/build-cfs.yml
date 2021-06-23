@@ -49,19 +49,19 @@ jobs:
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
 
-      # Grab previous cache for cfs build
-      - name: Cache Previous Build
-        id: cache-previous-build
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-${{ env.PREVIOUS_CACHE_VERSION }}
-
       # Check out the cfs bundle
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           submodules: true
+
+       # Grab previous cache for cfs build
+      - name: Cache Previous Build
+        id: cache-previous-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Setup the build system
       - name: Copy Files
@@ -86,13 +86,13 @@ jobs:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
-      # # Set up new cache to use during next build phase
-      # - name: Cache Next Build
-      #   id: cache-next-build
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/work/cFS/build/
-      #     key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-v${{ github.run_number }}
+      # Set up new cache to use during next build phase
+      - name: Cache Next Build
+        id: cache-next-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-folder-only-v${{ github.run_number }}
 
   test-cfs:
     name: Test
