@@ -60,6 +60,7 @@ jobs:
           cp -r ./cfe/cmake/sample_defs sample_defs
           cp ./cfe/cmake/Makefile.sample Makefile
           mv sample_defs Makefile ..
+          echo ../sample_defs
 
        # Grab previous cache for cfs build
       - name: Cache Previous Build
