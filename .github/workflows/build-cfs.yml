@@ -49,19 +49,19 @@ jobs:
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
 
-      # Grab previous cache for cfs build
+      # Check out the cfs bundle
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+       # Grab previous cache for cfs build
       - name: Cache Previous Build
         id: cache-previous-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-${{ env.PREVIOUS_CACHE_VERSION }}
-
-      # Check out the cfs bundle
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
 
       # Setup the build system
       - name: Copy Files
@@ -138,22 +138,22 @@ jobs:
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
 
-      - name: Echo var1
-        run: echo "${ENABLE_UNIT_TESTS}"
+      # - name: Echo var1
+      #   run: echo "${ENABLE_UNIT_TESTS}"
 
       # Enable unit testing - set environment variable
       # - name: Enable Unit Tests
       #   run: echo "ENABLE_UNIT_TESTS=true" >> $GITHUB_ENV
 
-      - name: Echo var2
-        run: echo "${ENABLE_UNIT_TESTS}"
+      # - name: Echo var2
+      #   run: echo "${ENABLE_UNIT_TESTS}"
 
       # Setup the build system
       - name: Make
         run: make
       
-      - name: Echo var3
-        run: echo "${ENABLE_UNIT_TESTS}"
+      # - name: Echo var3
+      #   run: echo "${ENABLE_UNIT_TESTS}"
 
       - name: Run Tests
         run: make test
