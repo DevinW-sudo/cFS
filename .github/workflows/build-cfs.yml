@@ -56,8 +56,8 @@ jobs:
           submodules: true
 
        # Grab previous cache for cfs build
-      - name: Cache Build
-        id: cache-build
+      - name: Cache Previous Build
+        id: cache-previous-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
@@ -65,7 +65,7 @@ jobs:
 
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-build.outputs.cache-hit != 'true'
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
