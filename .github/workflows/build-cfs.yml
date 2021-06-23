@@ -49,19 +49,19 @@ jobs:
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
 
-      # Check out the cfs bundle
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-
-       # Grab previous cache for cfs build
+      # Grab previous cache for cfs build
       - name: Cache Previous Build
         id: cache-previous-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-${{ env.PREVIOUS_CACHE_VERSION }}
+
+      # Check out the cfs bundle
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
 
       # Setup the build system
       - name: Copy Files
