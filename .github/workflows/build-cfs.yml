@@ -57,7 +57,7 @@ jobs:
 
       # Check out the cfs bundle
       - name: Checkout code
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        #if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
