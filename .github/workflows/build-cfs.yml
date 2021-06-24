@@ -46,11 +46,6 @@ jobs:
       - name: Subtract for Previous Cache Version
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
-      # Check out the cfs bundle
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          submodules: true
 
        # Grab previous cache for cfs build
       - name: Cache Previous Build
@@ -59,6 +54,13 @@ jobs:
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
+
+      # Check out the cfs bundle
+      - name: Checkout code
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        uses: actions/checkout@v2
+        with:
+          submodules: true
 
       # Setup the build system
       - name: Copy Files
