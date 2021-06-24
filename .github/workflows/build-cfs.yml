@@ -4,7 +4,6 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
-  #workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -128,9 +127,9 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
+
       # Setup the build system
       - name: Make
-        #if: steps.cache-test.outputs.cache-hit != 'true'
         run: make
 
       - name: Run Tests
