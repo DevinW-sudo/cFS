@@ -43,6 +43,7 @@ jobs:
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
     steps:
+      # set PREVIOUS_CACHE_VERSION number to access correct cache
       - name: Subtract for Previous Cache Version
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
@@ -55,13 +56,14 @@ jobs:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
 
-      # Check out the cfs bundle
+      # Check out the cfs bundle if no previous cache was found
       - name: Checkout code
         if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
+      # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
         run: git pull
@@ -119,7 +121,7 @@ jobs:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
-      # Checks out a copy of your repository on the ubuntu-latest machine
+      # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
         if: steps.cache-test.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
@@ -166,7 +168,7 @@ jobs:
           path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
-      # Checks out a copy of your repository on the ubuntu-latest machine
+      # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
         if: steps.cache-run.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
@@ -179,6 +181,7 @@ jobs:
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
+          
       # Setup the build system
       - name: Make Install
         run: make install
