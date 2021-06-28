@@ -66,7 +66,7 @@ jobs:
       # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: git pull --ff-only
+        run: git pull --allow-unrelated-histories
 
       # Setup the build system
       - name: Copy Files
