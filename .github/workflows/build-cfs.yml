@@ -4,6 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -47,7 +48,6 @@ jobs:
       - name: Subtract for Previous Cache Version
         run: |
           echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
-          mkdir cFS
 
       # Grab previous cache for cfs build
       - name: Cache Previous Build
