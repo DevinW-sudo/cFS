@@ -45,8 +45,7 @@ jobs:
     steps:
       # set PREVIOUS_CACHE_VERSION number to access correct cache
       - name: Subtract for Previous Cache Version
-        run: |
-          echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
+        run: echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
 
       # Grab previous cache for cfs build
       - name: Cache Previous Build
@@ -66,7 +65,7 @@ jobs:
       # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: git pull --ff-only --allow-unrelated-histories
+        run: git pull
 
       # Setup the build system
       - name: Copy Files
