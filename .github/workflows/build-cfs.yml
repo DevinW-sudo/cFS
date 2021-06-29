@@ -46,7 +46,7 @@ jobs:
       # set PREVIOUS_CACHE_VERSION number to access correct cache
       - name: Subtract for Previous Cache Version
         run: |
-          echo "PREVIOUS_CACHE_VERSION = $CACHE_VERSION_NUMBER- 1" >> $GITHUB_ENV
+          echo "PREVIOUS_CACHE_VERSION = ${{ env.CACHE_VERSION_NUMBER }} - 1" >> $GITHUB_ENV
 
       - name: Display numbers
         run: | 
