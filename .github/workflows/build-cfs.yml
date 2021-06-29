@@ -41,6 +41,7 @@ jobs:
       id: build-type
       BUILDTYPE: ${{ matrix.buildtype }}
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
+      PREVIOUS_CACHE_VERSION: ${{ github.run_number}} - 1
 
     steps:
       # set PREVIOUS_CACHE_VERSION number to access correct cache
