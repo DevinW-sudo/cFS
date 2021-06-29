@@ -49,7 +49,7 @@ jobs:
 
       - name: Display numbers
         run: | 
-          echo ${{ CACHE_VERSION_NUMBER }}
+          echo ${{ env.CACHE_VERSION_NUMBER }}
           echo ${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Grab previous cache for cfs build
