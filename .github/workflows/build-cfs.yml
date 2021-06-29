@@ -45,13 +45,13 @@ jobs:
     steps:
       # set PREVIOUS_CACHE_VERSION number to access correct cache
       - name: Subtract for Previous Cache Version
-        run: echo "PREVIOUS_CACHE_VERSION = 20" >> $GITHUB_ENV
+        run: echo "PREVIOUS_CACHE_VERSION=20" >> $GITHUB_ENV
 
       - name: Display numbers
         run: | 
-          echo ${{ env.PREVIOUS_CACHE_VERSION }}
           echo ${{ env.CACHE_VERSION_NUMBER }}
-          
+          echo ${{ env.PREVIOUS_CACHE_VERSION }}
+
       # Grab previous cache for cfs build
       - name: Cache Previous Build
         id: cache-previous-build
