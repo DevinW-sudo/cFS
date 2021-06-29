@@ -49,9 +49,9 @@ jobs:
 
       - name: Display numbers
         run: | 
-          echo ${{ env.CACHE_VERSION_NUMBER }}
           echo ${{ env.PREVIOUS_CACHE_VERSION }}
-
+          echo ${{ env.CACHE_VERSION_NUMBER }}
+          
       # Grab previous cache for cfs build
       - name: Cache Previous Build
         id: cache-previous-build
