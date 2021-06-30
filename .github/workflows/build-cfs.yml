@@ -52,20 +52,20 @@ jobs:
       #     echo ${{ env.CACHE_VERSION_NUMBER }}
       #     echo ${{ env.PREVIOUS_CACHE_VERSION }}
 
-      # Grab previous cache for cfs build
-      - name: Cache Previous Build
-        id: cache-previous-build
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
-
       # Check out the cfs bundle if no previous cache was found
       - name: Checkout code
         # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      # Grab previous cache for cfs build
+      - name: Cache Previous Build
+        id: cache-previous-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Pull code if a previous cache exists to update any changes
       # - name: Pull Code
@@ -74,7 +74,7 @@ jobs:
 
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
@@ -122,20 +122,20 @@ jobs:
       - name: Subtract for Previous Cache Version
         run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
 
-      # Grab previous cache for cfs build
-      - name: Cache Previous Build
-        id: cache-previous-build
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
-
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
         # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      # Grab previous cache for cfs build
+      - name: Cache Previous Build
+        id: cache-previous-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build/
+          key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Pull code if a previous cache exists to update any changes
       # - name: Pull Code
@@ -144,7 +144,7 @@ jobs:
 
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
@@ -182,13 +182,6 @@ jobs:
       BUILDTYPE: ${{ matrix.buildtype }}
 
     steps:
-      # set up cache/restore files from cache
-      - name: Cache Run
-        id: cache-run
-        uses: actions/cache@v2
-        with:
-          path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
@@ -197,9 +190,17 @@ jobs:
         with:
           submodules: true
 
+      # set up cache/restore files from cache
+      - name: Cache Run
+        id: cache-run
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/build
+          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
+
       # Setup the build system
       - name: Copy sample_defs
-        if: steps.cache-run.outputs.cache-hit != 'true'
+        # if: steps.cache-run.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
