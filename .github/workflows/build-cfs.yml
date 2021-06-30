@@ -43,9 +43,6 @@ jobs:
       CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
     steps:
-      # set PREVIOUS_CACHE_VERSION number to access correct cache
-      - name: Subtract for Previous Cache Version
-        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
 
       # - name: Display numbers
       #   run: | 
@@ -58,6 +55,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      # set PREVIOUS_CACHE_VERSION number to access correct cache
+      - name: Subtract for Previous Cache Version
+        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
 
       # Grab previous cache for cfs build
       - name: Cache Previous Build
@@ -118,16 +119,16 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get install lcov -y
 
-      # set PREVIOUS_CACHE_VERSION number to access correct cache
-      - name: Subtract for Previous Cache Version
-        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
-
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
         # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      # set PREVIOUS_CACHE_VERSION number to access correct cache
+      - name: Subtract for Previous Cache Version
+        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
 
       # Grab previous cache for cfs build
       - name: Cache Previous Build
