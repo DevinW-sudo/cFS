@@ -70,7 +70,7 @@ jobs:
       # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: git pull
+        run: sudo git pull
 
       # Setup the build system
       - name: Copy Files
@@ -129,7 +129,6 @@ jobs:
         with:
           path: ~/work/cFS/
           key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
-          run: git pull
 
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
@@ -139,9 +138,9 @@ jobs:
           submodules: true
 
       # Pull code if a previous cache exists to update any changes
-      # - name: Pull Code
-      #   if: steps.cache-previous-build.outputs.cache-hit == 'true'
-      #   run: git pull
+      - name: Pull Code
+        if: steps.cache-previous-build.outputs.cache-hit == 'true'
+        run: git pull
 
       # Setup the build system
       - name: Copy Files
