@@ -62,15 +62,15 @@ jobs:
 
       # Check out the cfs bundle if no previous cache was found
       - name: Checkout code
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Pull code if a previous cache exists to update any changes
-      - name: Pull Code
-        if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: sudo git pull
+      # - name: Pull Code
+      #   if: steps.cache-previous-build.outputs.cache-hit == 'true'
+      #   run: sudo git pull
 
       # Setup the build system
       - name: Copy Files
@@ -132,15 +132,15 @@ jobs:
 
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
-        if: steps.cache-previous-build.outputs.cache-hit != 'true'
+        # if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
       # Pull code if a previous cache exists to update any changes
-      - name: Pull Code
-        if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: git pull
+      # - name: Pull Code
+      #   if: steps.cache-previous-build.outputs.cache-hit == 'true'
+      #   run: git pull
 
       # Setup the build system
       - name: Copy Files
@@ -192,7 +192,7 @@ jobs:
 
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
-        if: steps.cache-run.outputs.cache-hit != 'true'
+        # if: steps.cache-run.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
