@@ -71,8 +71,6 @@ jobs:
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
         run: git pull
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Setup the build system
       - name: Copy Files
@@ -143,8 +141,6 @@ jobs:
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
         run: git pull
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Setup the build system
       - name: Copy Files
