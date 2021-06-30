@@ -27,7 +27,7 @@ jobs:
   build-cfs:
     #Continue if check-for-duplicates found no duplicates. Always runs for pull-requests.
     needs: check-for-duplicates
-    if: ${{ needs.check-for-duplicates.outputs.should_skip != 'true' }}
+    #if: ${{ needs.check-for-duplicates.outputs.should_skip != 'true' }}
     name: Build
     runs-on: ubuntu-18.04
 
@@ -45,8 +45,12 @@ jobs:
     steps:
       # set PREVIOUS_CACHE_VERSION number to access correct cache
       - name: Subtract for Previous Cache Version
-        run: |
-          echo "PREVIOUS_CACHE_VERSION = CACHE_VERSION_NUMBER - 1" >> $GITHUB_ENV
+        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
+
+      # - name: Display numbers
+      #   run: | 
+      #     echo ${{ env.CACHE_VERSION_NUMBER }}
+      #     echo ${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Grab previous cache for cfs build
       - name: Cache Previous Build
@@ -106,6 +110,7 @@ jobs:
     env:
       BUILDTYPE: ${{ matrix.buildtype }}
       ENABLE_UNIT_TESTS: true
+      CACHE_VERSION_NUMBER: ${{ github.run_number }}
 
 
     steps:
@@ -113,24 +118,33 @@ jobs:
       - name: Install Dependencies
         run: sudo apt-get install lcov -y
 
-        # set up cache/restore files from cache
-      - name: Cache Test
-        id: cache-test
+      # set PREVIOUS_CACHE_VERSION number to access correct cache
+      - name: Subtract for Previous Cache Version
+        run: echo "PREVIOUS_CACHE_VERSION=$((CACHE_VERSION_NUMBER - 1))" >> $GITHUB_ENV
+
+      # Grab previous cache for cfs build
+      - name: Cache Previous Build
+        id: cache-previous-build
         uses: actions/cache@v2
         with:
           path: ~/work/cFS/
-          key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
+          key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
 
       # Checks out a copy of your repository on the ubuntu-latest machine if no cache found
       - name: Checkout code
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
         uses: actions/checkout@v2
         with:
           submodules: true
 
+      # Pull code if a previous cache exists to update any changes
+      - name: Pull Code
+        if: steps.cache-previous-build.outputs.cache-hit == 'true'
+        run: git pull
+
       # Setup the build system
       - name: Copy Files
-        if: steps.cache-test.outputs.cache-hit != 'true'
+        if: steps.cache-previous-build.outputs.cache-hit != 'true'
         run: |
           cp ./cfe/cmake/Makefile.sample Makefile
           cp -r ./cfe/cmake/sample_defs sample_defs
@@ -144,6 +158,14 @@ jobs:
 
       - name: Check Coverage
         run: make lcov
+
+      # Set up new cache for cfs build
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: ~/work/cFS/
+          key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
   run-cfs:
     name: Run
