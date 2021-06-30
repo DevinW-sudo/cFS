@@ -4,6 +4,7 @@ name: Build, Test, and Run [OMIT_DEPRECATED=true]
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 env:
   SIMULATION: native
@@ -70,10 +71,7 @@ jobs:
       # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git pull
+        run: git pull
 
       # Setup the build system
       - name: Copy Files
@@ -143,10 +141,7 @@ jobs:
       # Pull code if a previous cache exists to update any changes
       - name: Pull Code
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git pull
+        run: git pull
 
       # Setup the build system
       - name: Copy Files
