@@ -93,7 +93,7 @@ jobs:
         id: cache-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/
+          path: ~/work/cFS/build/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
   test-cfs:
@@ -165,7 +165,7 @@ jobs:
         id: cache-test
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/
+          path: ~/work/cFS/build/
           key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
   run-cfs:
@@ -196,7 +196,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build
+          path: ~/work/cFS/build/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Setup the build system
