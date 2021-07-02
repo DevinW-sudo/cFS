@@ -139,9 +139,7 @@ jobs:
           
       # Setup the build system
       - name: Make Prep
-        run: |
-          cd cFS
-          make prep
+        run: make prep
 
       - name: Make
         id: make-build
