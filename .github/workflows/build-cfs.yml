@@ -59,6 +59,7 @@ jobs:
 
       - name: maintain files
         run: |
+          pwd
           cp ./cfe/cmake/Makefile.sample ~/work/Makefile
           cp -r ./cfe/cmake/sample_defs ~/work/sample_defs
 
@@ -77,6 +78,7 @@ jobs:
       - name: Restore Makefile and defs
         if: steps.cache-previous-build.outputs.cache-hit == 'true'
         run: |
+          pwd
           cp ~work/Makefile Makefile
           cp -r ~/work/sample_defs sample_defs
 
