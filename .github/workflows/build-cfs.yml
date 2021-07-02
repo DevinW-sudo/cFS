@@ -203,7 +203,7 @@ jobs:
       # Setup the build system
       - name: Make
         run: |
-          cd cFS
+          pwd
           make
 
       - name: Run Tests
