@@ -184,7 +184,7 @@ jobs:
         id: cache-previous-build
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build/
+          path: ~/work/cFS/
           # key: ${{ runner.os }}-test-${{ env.BUILDTYPE }}-v${{ env.PREVIOUS_CACHE_VERSION }}
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{ github.run_number }}
 
@@ -248,7 +248,7 @@ jobs:
         id: cache-run
         uses: actions/cache@v2
         with:
-          path: ~/work/cFS/build/
+          path: ~/work/cFS/
           key: ${{ runner.os }}-build-${{ env.BUILDTYPE }}-v${{github.run_number}}
 
       # Setup the build system
