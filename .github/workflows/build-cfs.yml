@@ -139,7 +139,9 @@ jobs:
           
       # Setup the build system
       - name: Make Prep
-        run: make prep
+        run: |
+          cd cFS
+          make prep
 
       - name: Make
         id: make-build
@@ -202,7 +204,9 @@ jobs:
 
       # Setup the build system
       - name: Make
-        run: make
+        run: |
+          cd cFS
+          make
 
       - name: Run Tests
         run: make test
@@ -258,7 +262,9 @@ jobs:
           
       # Setup the build system
       - name: Make Install
-        run: make install
+        run: |
+          cd cFS
+          make install
 
       - name: List cpu1
         run: ls build/exe/cpu1/
